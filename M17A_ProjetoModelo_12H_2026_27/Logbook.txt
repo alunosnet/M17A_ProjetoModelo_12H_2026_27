@@ -14,6 +14,7 @@ Consultas:
 
 Necessidades de dados
 Base de dados:
-	Livros(id<PK>,ISBN,Titulo,Autor,Tipo,DataEntrada,Estado,Disponivel)
+	Livros(id<PK>,ISBN varchar(20),Titulo varchar(30),Autor varchar(40),
+		Tipo varchar(20),DataEntrada Date,Estado varchar(50),Disponivel bit)
 	Leitores(id<PK>,Nome,Email,DataNascimento,Estado)
 	Emprestimos(id<PK>,id_livro<FK>,id_leitor<FK>,data_emp,data_dev,Estado,Obs)
