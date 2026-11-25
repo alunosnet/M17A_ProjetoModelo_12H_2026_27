@@ -38,17 +38,14 @@ namespace M17A_ProjetoModelo_12H_2026_27.Livros
         /// <summary>
         /// Faz a validação dos dados do objeto.
         /// </summary>
-        /// <returns>String vazia se os dados são válidos. Erros a mostrar ao utilizazdor.</returns>
+        /// <returns>String vazia se os dados são válidos. Erros a mostrar ao utilizador.</returns>
         public string validar()
         {
             string erros = "";
 
             return erros;
         }
-        public void apagar()
-        {
-            throw new NotImplementedException();
-        }
+
 
         public void atualizar()
         {
@@ -68,6 +65,10 @@ namespace M17A_ProjetoModelo_12H_2026_27.Livros
         {
             return id + $" - {titulo}";
         }
-                
+
+        public void apagar()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

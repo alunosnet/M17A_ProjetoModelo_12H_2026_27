@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +14,59 @@ namespace M17A_ProjetoModelo_12H_2026_27
     /// </summary>
     public class c_basedados
     {
+        string strligacao;
+        string NomeBD;
+        string caminhoBD;
+        SqlConnection ligacaoBD;
 
+        public c_basedados(string NomeBD)
+        {
+            this.NomeBD= NomeBD;
+            //ler a string de ligação à bd
+            strligacao = ConfigurationManager.ConnectionStrings["sql"].ToString();
+            //verificar se a pasta do programa existe
+            caminhoBD = c_utils.pastaPrograma("M17A_12H_Projeto");
+            //caminho completo com bd
+            caminhoBD = caminhoBD + "\\" + NomeBD + ".mdf";
+            //verificar se a bd existe
+            if (System.IO.File.Exists(caminhoBD)==false)
+            {
+                //criar a bd
+                CriarBD();
+            }
+        }
+
+        private void CriarBD()
+        {
+            //Ligação ao servidor
+            ligacaoBD = new SqlConnection(strligacao);
+            ligacaoBD.Open();
+            //verificar se a bd já existe no catálogo do sql server
+            string sql = $@"
+                            IF EXISTS(SELECT * FROM master.sys.databases 
+                                        WHERE name='{this.NomeBD}')
+                            BEGIN
+                                USE master;
+                                EXEC sp_detach_db {this.NomeBD};
+                            END
+                            ";
+            SqlCommand comando = new SqlCommand(sql,ligacaoBD);
+            comando.ExecuteNonQuery();
+            //criar a bd
+            sql = $@"CREATE DATABASE {this.NomeBD} ON PRIMARY 
+                        (NAME={this.NomeBD},FILENAME='{this.caminhoBD}')";
+            comando = new SqlCommand(sql, ligacaoBD);
+            comando.ExecuteNonQuery();
+            CriarTabelas();
+        }
+        void CriarTabelas()
+        {
+            //ligar à base de dados criada
+
+            //criar tabela livros
+            string sql = "";
+            //criar leitores
+            //criar empréstimos
+        }
     }
 }
