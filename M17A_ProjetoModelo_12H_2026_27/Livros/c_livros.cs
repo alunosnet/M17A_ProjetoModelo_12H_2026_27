@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,9 +20,10 @@ namespace M17A_ProjetoModelo_12H_2026_27.Livros
         public DateTime data_entrada;
         public string estado;
         public bool disponivel;
-
-        public c_livros()
+        c_basedados bd;
+        public c_livros(c_basedados bd)
         {
+            this.bd = bd;
         }
 
         public c_livros(int id, string isbn, string titulo, string autor, string tipo, DateTime data_entrada, string estado, bool disponivel)
@@ -58,7 +60,67 @@ namespace M17A_ProjetoModelo_12H_2026_27.Livros
         }
         public void adicionar() 
         {
-            string sql = "INSERT INTO ....";
+            
+            string sql = $@"INSERT INTO Livros(ISBN,TITULO,AUTOR,DATAENTRADA,TIPO,DISPONIVEL,ESTADO)
+                        VALUES (@ISBN,@TITULO,@AUTOR,@DATAENTRADA,@TIPO,@DISPONIVEL,@ESTADO)";
+
+            List<SqlParameter> parametros = new List<SqlParameter>();
+            parametros.Add(
+                new SqlParameter()
+                {
+                    ParameterName="@ISBN",  //Nome do parâmetro
+                    SqlDbType = System.Data.SqlDbType.VarChar,  //tipo de dados na bd
+                    Value=this.isbn         //valor a inserir
+                }
+            );
+            parametros.Add(
+                new SqlParameter()
+                {
+                    ParameterName = "@TITULO",  //Nome do parâmetro
+                    SqlDbType = System.Data.SqlDbType.VarChar,  //tipo de dados na bd
+                    Value = this.titulo         //valor a inserir
+                }
+            );
+            parametros.Add(
+                new SqlParameter()
+                {
+                    ParameterName = "@AUTOR",  //Nome do parâmetro
+                    SqlDbType = System.Data.SqlDbType.VarChar,  //tipo de dados na bd
+                    Value = this.autor         //valor a inserir
+                }
+            );
+            parametros.Add(
+                new SqlParameter()
+                {
+                    ParameterName = "@DATAENTRADA",  //Nome do parâmetro
+                    SqlDbType = System.Data.SqlDbType.Date,  //tipo de dados na bd
+                    Value = this.data_entrada         //valor a inserir
+                }
+            );
+            parametros.Add(
+                new SqlParameter()
+                {
+                    ParameterName = "@TIPO",  //Nome do parâmetro
+                    SqlDbType = System.Data.SqlDbType.VarChar,  //tipo de dados na bd
+                    Value = this.tipo         //valor a inserir
+                }
+            );
+            parametros.Add(
+                    new SqlParameter()
+                    {
+                        ParameterName = "@DISPONIVEL",  //Nome do parâmetro
+                        SqlDbType = System.Data.SqlDbType.Bit,  //tipo de dados na bd
+                        Value = this.disponivel         //valor a inserir
+                    }
+                );
+            parametros.Add(
+                new SqlParameter()
+                {
+                    ParameterName = "@ESTADO",  //Nome do parâmetro
+                    SqlDbType = System.Data.SqlDbType.VarChar,  //tipo de dados na bd
+                    Value = this.estado         //valor a inserir
+                }
+);
         }
 
         public override string ToString()

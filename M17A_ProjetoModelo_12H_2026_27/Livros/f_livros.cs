@@ -12,9 +12,11 @@ namespace M17A_ProjetoModelo_12H_2026_27.Livros
 {
     public partial class f_livros : Form
     {
-        public f_livros()
+        c_basedados bd;
+        public f_livros(c_basedados bd)
         {
             InitializeComponent();
+            this.bd = bd;
         }
         /// <summary>
         /// Botão para adicionar um livro novo à base de dados
@@ -23,15 +25,28 @@ namespace M17A_ProjetoModelo_12H_2026_27.Livros
         /// <param name="e"></param>
         private void btn_adicionar_Click(object sender, EventArgs e)
         {
-            c_livros novo = new c_livros();
-            novo.titulo = txt_titulo.Text;
+            c_livros novo = new c_livros(bd);
             
             //recolher dados do form
+            novo.titulo = txt_titulo.Text;
+            novo.isbn=txt_isbn.Text;
+            novo.autor=txt_autor.Text;
+            novo.tipo = cmb_tipo.Text;
+            novo.data_entrada = dtp_data_entrada.Value;
+            novo.estado= txt_estado.Text;
+            novo.disponivel=ckb_disponivel.Checked;
             //validar os dados
-            //estabelecer a ligação com a base de dados
+            string erros = novo.validar();
+            if (erros != "")
+            {
+                MessageBox.Show(erros, "Verifique os dados do form.");
+                return;
+            }
+
             //inserir o registo na base dados
+            novo.adicionar();
             //feedback ao utilizador (sucesso/erro)
-            //desligar da base de dados
+           
         }
     }
 }

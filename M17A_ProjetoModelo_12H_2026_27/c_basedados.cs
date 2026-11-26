@@ -62,9 +62,26 @@ namespace M17A_ProjetoModelo_12H_2026_27
         void CriarTabelas()
         {
             //ligar à base de dados criada
-
+            ligacaoBD.ChangeDatabase(this.NomeBD);
             //criar tabela livros
-            string sql = "";
+            string sql = @"
+                IF (OBJECT_ID('Livros') IS NULL)
+                BEGIN
+                    CREATE TABLE Livros(
+                        id INT IDENTITY PRIMARY KEY,
+                        ISBN VARCHAR(20) NOT NULL,
+                        Titulo VARCHAR(30) NOT NULL,
+                        Autor VARCHAR(40) NOT NULL,
+                        Tipo VARCHAR(20) NOT NULL,
+                        DataEntrada DATE DEFAULT (GETDATE()),
+                        Estado VARCHAR(50) DEFAULT ('Bom Estado'),
+                        Disponivel BIT DEFAULT (1)
+                    )
+                END
+            ";
+            SqlCommand comando = new SqlCommand(sql, ligacaoBD);
+            comando.ExecuteNonQuery();
+            comando.Dispose();
             //criar leitores
             //criar empréstimos
         }

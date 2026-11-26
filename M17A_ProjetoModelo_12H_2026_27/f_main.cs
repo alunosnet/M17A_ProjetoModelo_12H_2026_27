@@ -13,6 +13,7 @@ namespace M17A_ProjetoModelo_12H_2026_27
 {
     public partial class f_main : Form
     {
+        c_basedados bd=new c_basedados("M17A_12H_Projeto");
         public f_main()
         {
             InitializeComponent();
@@ -25,7 +26,7 @@ namespace M17A_ProjetoModelo_12H_2026_27
         /// <param name="e"></param>
         private void livrosToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            f_livros f = new f_livros();
+            f_livros f = new f_livros(bd);
             f.Show();
         }
     }
